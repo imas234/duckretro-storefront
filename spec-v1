@@ -1,0 +1,114 @@
+# Phase-1 SEO (built in from day 0)
+
+## A) URL & content model
+
+* **Canonical, stable URLs**
+
+  * Product: `/p/{slug}` (primary) with an ID alias `/p/{id}` that 301s to the slug.
+  * Home list: `/`
+* **KV additions per product**
+
+  * `slug` (required, immutable once live), `seoTitle`, `seoDescription`, `imageAlt`, optional `brand`, `sku|mpn|gtin`, `currency`, `availability` (“InStock”, etc.)
+
+## B) Page-level SEO (SSR via Fresh `Head`)
+
+* **Titles**
+
+  * Home: “{Brand} — {Short Value Prop}”
+  * Product: “{Product Name} | {Brand}”
+* **Meta description**
+
+  * 140–160 chars; product page pulls from `seoDescription` (fallback to truncated description).
+* **Canonical link**
+
+  * Home → `/`; product → `/p/{slug}`; add canonical to avoid any dupes.
+* **Indexation rules**
+
+  * Public pages: index/follow.
+  * Auth-only endpoints, cart, checkout, admin: `noindex, nofollow`.
+
+## C) Structured data (JSON-LD, SSR)
+
+* **Product** on product pages:
+
+  * `@type: Product` with `name`, `image`, `description`, `sku|mpn|gtin` (if available), `brand` (if available).
+  * `offers`: `@type: Offer`, `price`, `priceCurrency`, `availability`, `url`.
+  * (Optional) `aggregateRating` only when real data exists.
+* **ItemList** on home:
+
+  * `@type: ItemList` with list of product `url`s and positions.
+* **BreadcrumbList** for product pages:
+
+  * Home → Product (two-level only; clean and minimal).
+
+## D) Social previews (Open Graph & Twitter Cards)
+
+* **Open Graph (important for Facebook audience)**
+
+  * `og:type` `product` on product pages; `website` on home.
+  * `og:title`, `og:description`, `og:url`, `og:image` (≥1200×630; JPG/PNG; absolute URL).
+  * `fb:app_id` (use your Facebook App ID for Insights).
+* **Twitter**
+
+  * `twitter:card` `summary_large_image`, plus `title`, `description`, `image`.
+
+## E) Crawling, sitemaps, robots
+
+* **`/robots.txt`**
+
+  * Allow `/` and `/p/`; Disallow `/cart`, `/checkout`, `/orders`, `/api/*`, `/auth/*`, `/admin/*`.
+  * Point to sitemap: `Sitemap: https://{domain}/sitemap.xml`
+* **`/sitemap.xml`** (SSR route)
+
+  * Home + all products; update daily (or on product change) with `<lastmod>`.
+* **HTTP**
+
+  * Force HTTPS, add HSTS. 301 any `www`/non-canonical hosts to primary.
+
+## F) Performance & CWV (ships in Phase-1)
+
+* **SSR by default**: bots get full HTML.
+* **Critical practices**
+
+  * Set explicit `width`/`height` on images to avoid CLS.
+  * Lazy-load below-the-fold images; preload hero image.
+  * Cache policy:
+
+    * HTML: short TTL (e.g., 60–120s) with ETag; revalidate on product edits.
+    * Static images: long TTL (e.g., 30d) with fingerprinted URLs.
+* **Edge hints**
+
+  * `rel=preconnect` to image host (if external).
+  * Keep JS tiny (Fresh islands already help).
+
+## G) Internationalization & locale (v1-ready)
+
+* Single-language v1: set `html lang` (e.g., `en` or `bn`) and `og:locale` accordingly.
+* Plan for `hreflang` if/when multilingual launches (Phase-2).
+
+## H) Admin inputs (to make SEO non-blocking)
+
+* Add fields to the simple admin editor:
+
+  * `slug` (validated unique; URL preview)
+  * `seoTitle` (counter to \~60 chars)
+  * `seoDescription` (counter to \~160 chars)
+  * `imageAlt`
+  * (Optional) `brand`, `sku|mpn|gtin`, `availability`, `currency`
+
+## I) Tracking & privacy (lightweight)
+
+* Basic server logs/aggregates are enough for Phase-1.
+* If you add any pixels later, ensure they’re behind consent and don’t affect CLS.
+
+## J) Acceptance criteria (Phase-1 now includes)
+
+* Each product page renders SSR with unique **title**, **meta description**, **canonical**, **Open Graph**, **Twitter Card**, and **Product JSON-LD** (valid in Rich Results).
+* Home page renders **ItemList JSON-LD** with links to all active products.
+* **Sitemap** includes all active product URLs with `lastmod` and is referenced by **robots.txt**.
+* Non-public pages return `noindex` and are excluded from sitemap.
+* All product images specify width/height, pass Lighthouse CLS budget; HTML pages return 200 with canonical set.
+* OG share for a product (via Facebook debugger) shows correct title/description/image.
+* `slug` immutability is enforced once a product goes live (or old slug 301s to new).
+
+---
