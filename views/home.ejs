@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= brand %> — <%= valueProp %></title>
+  <meta name="description" content="<%= homeDescription %>">
+  <link rel="canonical" href="<%= baseUrl %>/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= brand %> — <%= valueProp %>">
+  <meta property="og:description" content="<%= homeDescription %>">
+  <meta property="og:url" content="<%= baseUrl %>/">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="<%= heroImage %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= brand %> — <%= valueProp %>">
+  <meta name="twitter:description" content="<%= homeDescription %>">
+  <meta name="twitter:image" content="<%= heroImage %>">
+  <script type="application/ld+json"><%= itemListJson %></script>
+</head>
+<body>
+  <h1><%= brand %></h1>
+  <ul>
+    <% products.forEach(function(product){ %>
+      <li>
+        <a href="/p/<%= product.slug %>"><%= product.name %></a>
+      </li>
+    <% }); %>
+  </ul>
+</body>
+</html>
