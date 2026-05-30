@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= (product.seoTitle || product.name) + ' | ' + brand %></title>
+  <meta name="description" content="<%= description %>">
+  <link rel="canonical" href="<%= baseUrl %>/p/<%= product.slug %>">
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="<%= (product.seoTitle || product.name) + ' | ' + brand %>">
+  <meta property="og:description" content="<%= description %>">
+  <meta property="og:url" content="<%= baseUrl %>/p/<%= product.slug %>">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="<%= product.image %>">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= (product.seoTitle || product.name) + ' | ' + brand %>">
+  <meta name="twitter:description" content="<%= description %>">
+  <meta name="twitter:image" content="<%= product.image %>">
+  <script type="application/ld+json"><%= productJsonLd %></script>
+  <script type="application/ld+json"><%= breadcrumbJson %></script>
+</head>
+<body>
+  <h1><%= product.name %></h1>
+  <img src="<%= product.image %>" alt="<%= product.imageAlt %>" width="600" height="600">
+  <p><%= product.description %></p>
+  <p>Price: <%= product.price %> <%= product.currency %></p>
+</body>
+</html>

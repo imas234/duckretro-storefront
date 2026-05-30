@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Retro Duck Toy",
+    "description": "A vintage duck-shaped toy for collectors and enthusiasts of classic playthings.",
+    "slug": "retro-duck-toy",
+    "seoTitle": "Retro Duck Toy",
+    "seoDescription": "Authentic retro duck toy for collectors. Durable and nostalgic, perfect for display.",
+    "image": "https://via.placeholder.com/1200x630.png?text=Retro+Duck+Toy",
+    "imageAlt": "Retro duck toy",
+    "brand": "DuckRetro",
+    "sku": "DRT-001",
+    "price": 19.99,
+    "currency": "USD",
+    "availability": "InStock"
+  },
+  {
+    "id": 2,
+    "name": "Vintage Duck Poster",
+    "description": "Poster featuring a classic duck illustration, printed on archival paper.",
+    "slug": "vintage-duck-poster",
+    "seoTitle": "Vintage Duck Poster",
+    "seoDescription": "High-quality vintage duck poster printed on archival paper. Perfect wall art for retro lovers.",
+    "image": "https://via.placeholder.com/1200x630.png?text=Vintage+Duck+Poster",
+    "imageAlt": "Vintage duck poster",
+    "brand": "DuckRetro",
+    "sku": "VDP-002",
+    "price": 24.5,
+    "currency": "USD",
+    "availability": "InStock"
+  }
+]
